@@ -25,6 +25,10 @@ use MooX::Types::MooseLike::Base qw/:all/;
 
 extends 'GADS::Column';
 
+has '+can_multivalue' => (
+    default => 1,
+);
+
 has filesize => (
     is      => 'rw',
     isa     => Maybe[Int],
