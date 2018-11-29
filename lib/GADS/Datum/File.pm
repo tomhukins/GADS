@@ -28,43 +28,39 @@ extends 'GADS::Datum';
 with 'GADS::Role::Presentation::Datum::File';
 
 after set_value => sub {
-    my ($self, $value) = @_;
+    my ($self, $all) = @_;
+    $all ||= [];
+    $all = [$all] if ref $all ne 'ARRAY';
+    my @all = ref($all) eq 'ARRAY' ? @$all : ($all);
     my $clone = $self->clone; # Copy before changing text
+
     my $new_id;
-    # If an array, $value will either be blank string (no file submitted, empty hidden value),
-    # or 2 values, one the value and one blank
-    if (ref $value eq 'ARRAY')
-    {
-        if (@$value > 1)
+    foreach my $value (@all) {
+        if (ref $value && $value->{content})
         {
-            ($value) = grep { $_ } @$value;
+            # New file uploaded
+            my $new_file = $self->schema->resultset('Fileval')->create({
+                name     => $value->{name},
+                mimetype => $value->{mimetype},
+                content  => $value->{content},
+                defined($new_id) ? ( id => $new_id ) : (),
+            });
+            $new_id //= $new_file->id;
+            $self->content($value->{content});
+            $self->name($value->{name});
+            $self->mimetype($value->{mimetype});
         }
         else {
-            ($value) = @$value;
+            # Just ID for file passed. Probably a resubmission
+            # of a form with previous errors
+            $new_id = $value || undef;
         }
+        $self->changed(1) if (!$self->id && $value)
+            || (!$value && $self->id)
+            || (defined $self->id && defined $new_id && $self->id != $new_id && $clone->content ne $self->content);
+        $self->oldvalue($clone);
+        $self->id($new_id) if defined $new_id || $self->init_no_value;
     }
-    if (ref $value && $value->{content})
-    {
-        # New file uploaded
-        $new_id = $self->schema->resultset('Fileval')->create({
-            name     => $value->{name},
-            mimetype => $value->{mimetype},
-            content  => $value->{content},
-        })->id;
-        $self->content($value->{content});
-        $self->name($value->{name});
-        $self->mimetype($value->{mimetype});
-    }
-    else {
-        # Just ID for file passed. Probably a resubmission
-        # of a form with previous errors
-        $new_id = $value || undef;
-    }
-    $self->changed(1) if (!$self->id && $value)
-        || (!$value && $self->id)
-        || (defined $self->id && defined $new_id && $self->id != $new_id && $clone->content ne $self->content);
-    $self->oldvalue($clone);
-    $self->id($new_id) if defined $new_id || $self->init_no_value;
 };
 
 has id => (

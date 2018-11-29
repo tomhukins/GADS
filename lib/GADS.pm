@@ -2562,14 +2562,19 @@ any '/edit/:id?' => require_login sub {
         foreach my $key (keys %$uploads)
         {
             next unless $key =~ /^file([0-9]+)/;
-            my $upload = $uploads->{$key};
             my $col_id = $1;
+            # TOM: I think nothing uses $filecol
             my $filecol = $layout->column($col_id);
-            $record->fields->{$col_id}->set_value({
-                name     => $upload->filename,
-                mimetype => $upload->type,
-                content  => $upload->content,
-            });
+            my @upload = request->upload($key);
+            warn "TOMWARN @upload";
+            my $values = [
+                map {{
+                    name     => $_->filename,
+                    mimetype => $_->type,
+                    content  => $_->content,
+                }} @upload
+            ];
+            $record->fields->{$col_id}->set_value($values);
         }
         my $failed;
 
