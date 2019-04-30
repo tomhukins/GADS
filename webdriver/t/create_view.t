@@ -93,6 +93,13 @@ $gads->assert_new_record_fields(
         },
     ],
 );
+$gads->submit_new_record_form_ok(
+    'Create a new record',
+    [ 'One hundred and twenty three', 123 ],
+);
+$gads->assert_success_present('The first record was added successfully');
+$gads->assert_error_absent(
+    'No error message is visible after adding the first record' );
 
 # TODO: write main tests here
 

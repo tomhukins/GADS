@@ -788,6 +788,40 @@ sub submit_login_form_ok {
     return $result;
 }
 
+=head3 submit_new_record_form_ok
+
+Submit the I<< New record >> form.  Takes an array reference of values
+to input.
+
+=cut
+
+sub submit_new_record_form_ok {
+    my ( $self, $name, $args_ref ) = @_;
+    $name //= 'Submit the new record form';
+    my @arg = @$args_ref;
+
+    my $test = context();
+
+    {
+        local $\ = ", ";
+        $test->note("About to create a record with values @arg");
+    }
+    my $success = $self->_fill_in_field(
+        $self->_new_record_selector(1), $arg[0] );
+    $success &&= $self->_fill_in_field(
+        $self->_new_record_selector(2), $arg[1] );
+    $self->gads->webdriver->find('[type=submit][name=submit]')->click;
+
+    my $result = $test->ok( $success, $name );
+    $test->release;
+    return $result;
+}
+
+sub _new_record_selector {
+    my ( $self, $offset ) = @_;
+    return ".edit-form .form-group:nth-child(${offset}) input";
+}
+
 sub _check_only_one {
     my ( $self, $element, $element_type_name ) = @_;
     my $test = context();
