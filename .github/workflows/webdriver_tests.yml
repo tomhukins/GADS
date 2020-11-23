@@ -11,6 +11,12 @@ jobs:
 #      # See https://github.com/Perl/docker-perl-tester
 #      image: 'perldocker/perl-tester:5.32'
 
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+
     env:
       GADS_USERNAME: 'test@example.com'
       GADS_PASSWORD: 'xyz123'
@@ -32,8 +38,6 @@ jobs:
         with:
           cpanfile: 'cpanfile'
       - name: 'Start the application'
-        run: |
-          systemctl start postgresql
-          ./bin/setup_for_webdriver
+        run: ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         run: prove -lmv webdriver/t/login.t
