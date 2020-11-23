@@ -8,6 +8,7 @@ jobs:
     timeout-minutes: 30
 
     container:
+      # TODO: Where does this come from and what does it contain?
       image: 'perldocker/perl-tester:5.32'
 
     env:
