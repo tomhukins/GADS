@@ -22,8 +22,8 @@ jobs:
           perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
       - name: 'Install Non-CPAN dependencies'
         run: |
-          apt search firefox
-          apt install firefox firefox-geckodriver liblua5.3-dev postgresql
+          apt-cache search geckodriver
+          apt-get install firefox firefox-geckodriver liblua5.3-dev postgresql
       - name: 'Install CPAN dependencies'
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
