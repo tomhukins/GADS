@@ -15,15 +15,16 @@ jobs:
       GADS_PASSWORD: 'xyz123'
 
     steps:
-      - uses: 'actions/checkout@v2'
+      - name: 'Check out the GADS repository'
+        uses: 'actions/checkout@v2'
       - name: 'Build cpanfile'
         run: |
           perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
+      - name: 'Install Non-CPAN dependencies'
+        run: |
+          apt install firefox firefox-geckodriver liblua5.3-dev postgresql
       - name: 'Install CPAN dependencies'
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
           cpanfile: 'cpanfile'
           sudo: false
-      - name: Set up
-        run: |
-          apt install firefox firefox-geckodriver liblua5.3-dev postgresql
