@@ -1,0 +1,21 @@
+name: webdriver_tests
+
+jobs:
+  webdriver:
+    name: 'Webdriver Tests'
+    runs-on: 'ubuntu-latest'
+    timeout-minutes: 30
+
+    container:
+      image: 'perldocker/perl-tester:5.32'
+
+    env:
+      GADS_USERNAME: 'test@example.com'
+      GADS_PASSWORD: 'xyz123'
+
+    steps:
+      - uses: 'actions/checkout@v2'
+      - name: Set up
+        run: |
+          cpan .
+          apt install postgresql
