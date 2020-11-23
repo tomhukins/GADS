@@ -21,8 +21,8 @@ jobs:
         run: |
           cat /etc/apt/sources.list
           cat /etc/apt/sources.list.d/*
-          apt search gecko
-          sudo apt-get install firefox firefox-geckodriver liblua5.3-dev postgresql
+          sudo apt-get install cpanminus liblua5.3-dev
+          # sudo apt-get install firefox firefox-geckodriver liblua5.3-dev postgresql
       - name: 'Build cpanfile'
         run: |
           perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
