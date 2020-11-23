@@ -1,4 +1,5 @@
 name: webdriver_tests
+on: [push]
 
 jobs:
   webdriver:
