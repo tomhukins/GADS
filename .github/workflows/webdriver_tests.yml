@@ -6,9 +6,9 @@ jobs:
     runs-on: 'ubuntu-latest'
     timeout-minutes: 30
 
-    container:
-      # See https://github.com/Perl/docker-perl-tester
-      image: 'perldocker/perl-tester:5.32'
+#    container:
+#      # See https://github.com/Perl/docker-perl-tester
+#      image: 'perldocker/perl-tester:5.32'
 
     env:
       GADS_USERNAME: 'test@example.com'
