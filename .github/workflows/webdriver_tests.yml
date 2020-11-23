@@ -7,8 +7,8 @@ jobs:
     runs-on: 'ubuntu-latest'
     timeout-minutes: 30
 
-    container:
-      image: 'perldocker/perl-tester:5.32'
+#    container:
+#      image: 'perldocker/perl-tester:5.32'
 
     env:
       GADS_USERNAME: 'test@example.com'
@@ -22,8 +22,8 @@ jobs:
           perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
       - name: 'Install Non-CPAN dependencies'
         run: |
-          apt-cache search geckodriver
-          apt-get install firefox firefox-geckodriver liblua5.3-dev postgresql
+          apt search geckodriver
+          apt-get install firefox-esr firefox-geckodriver liblua5.3-dev postgresql
       - name: 'Install CPAN dependencies'
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
