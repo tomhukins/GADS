@@ -1,4 +1,4 @@
-dist: bionic
+dist: focal
 language: perl
 jobs:
   include:
@@ -6,6 +6,8 @@ jobs:
       perl: "5.28"
     - name: 5.30 unit tests
       perl: "5.30"
+    - name: 5.32 unit tests
+      perl: "5.32"
     - name: 5.30 Webdriver tests
       perl: "5.30"
       env: GADS_USERNAME=test@example.com GADS_PASSWORD=xyz123
