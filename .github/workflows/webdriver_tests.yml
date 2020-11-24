@@ -20,6 +20,7 @@ jobs:
     env:
       GADS_USERNAME: 'test@example.com'
       GADS_PASSWORD: 'xyz123'
+      PGHOST: 'localhost'
 
     steps:
       - name: 'Check out the GADS repository'
