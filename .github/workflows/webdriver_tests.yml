@@ -40,17 +40,16 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+# Skip health checks as subsequent build steps take a long time
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
 
     env:
       GADS_USERNAME: 'test@example.com'
       GADS_PASSWORD: 'xyz123'
-      #PGHOST: 'localhost'
       PGDATABASE: 'postgres'
       PGUSER: 'postgres'
 
@@ -59,17 +58,15 @@ jobs:
         uses: 'actions/checkout@v2'
       - name: 'Install Non-CPAN dependencies'
         run: |
-          #cat /etc/apt/sources.list
-          #cat /etc/apt/sources.list.d/*
           sudo apt-get install cpanminus liblua5.3-dev
           # sudo apt-get install firefox firefox-geckodriver liblua5.3-dev postgresql
       - name: 'Build cpanfile'
         run: |
           perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
-#      - name: 'Install CPAN dependencies'
-#        uses: 'perl-actions/install-with-cpanm@v1'
-#        with:
-#          cpanfile: 'cpanfile'
+      - name: 'Install CPAN dependencies'
+        uses: 'perl-actions/install-with-cpanm@v1'
+        with:
+          cpanfile: 'cpanfile'
       - name: 'Set up credentials for psql'
         # https://wiki.postgresql.org/wiki/Pgpass
         run: |
@@ -78,5 +75,4 @@ jobs:
       - name: 'Start the application'
         run: env PGDATABASE=postgres PGHOST=localhost PGUSER=postgres ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
-        run: psql --version
-        #run: prove -lmv webdriver/t/login.t
+        run: prove -lmv webdriver/t/login.t
