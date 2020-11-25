@@ -76,7 +76,7 @@ jobs:
           echo '*:*:*:postgresadmin:postgrespassword' > ~/.pgpass
           chmod 600 ~/.pgpass
       - name: 'Start the application'
-        run: env PGDATABASE=postgres PGUSER=postgresadmin ./bin/setup_for_webdriver
+        run: env PGDATABASE=postgres PGHOST=localhost PGUSER=postgresadmin ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         run: psql --version
         #run: prove -lmv webdriver/t/login.t
