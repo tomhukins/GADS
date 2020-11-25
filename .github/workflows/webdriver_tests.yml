@@ -39,6 +39,8 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgrespassword
           POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
 
     env:
       GADS_USERNAME: 'test@example.com'
