@@ -58,7 +58,7 @@ jobs:
         uses: 'actions/checkout@v2'
       - name: 'Install Non-CPAN dependencies'
         run: |
-          apt-get install liblua5.3-dev
+          apt-get -yq install liblua5.3-dev
       - name: 'Install CPAN dependencies'
         run: |
           cpanm --quiet --installdeps --notest .
