@@ -1,5 +1,5 @@
 name: 'Linkspace Tests'
-on: [push]
+on: 'push'
 
 jobs:
 #  unit:
@@ -62,12 +62,14 @@ jobs:
       - name: 'Build cpanfile'
         run: |
           perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
+      - name: 'Install Webdriver CPAN dependencies'
+        uses: 'perl-actions/install-with-cpanm@v1'
+        with:
+          install: 'Webdriver::Tiny'
       - name: 'Install CPAN dependencies'
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
           cpanfile: 'cpanfile'
-      - name: 'Install Webdriver CPAN dependencies'
-        run: cpanm Webdriver::Tiny
       - name: 'Set up credentials for psql'
         # See https://wiki.postgresql.org/wiki/Pgpass
         run: |
