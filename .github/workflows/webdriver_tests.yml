@@ -50,7 +50,7 @@ jobs:
     env:
       GADS_USERNAME: 'test@example.com'
       GADS_PASSWORD: 'xyz123'
-      PGHOST: 'localhost'
+      #PGHOST: 'localhost'
       PGDATABASE: 'postgres'
       PGUSER: 'postgresadmin'
 
@@ -70,13 +70,13 @@ jobs:
 #        uses: 'perl-actions/install-with-cpanm@v1'
 #        with:
 #          cpanfile: 'cpanfile'
-      - name: 'Diagnostics'
+      - name: 'Set up credentials for psql'
+        # https://wiki.postgresql.org/wiki/Pgpass
         run: |
-          netstat -4an
           echo '*:*:*:postgresadmin:postgrespassword' > ~/.pgpass
           chmod 600 ~/.pgpass
-          echo 'select 1;' | psql
       - name: 'Start the application'
-        run: ./bin/setup_for_webdriver
+        run: env PGDATABASE=postgres PGUSER=postgresadmin ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
-        run: prove -lmv webdriver/t/login.t
+        run: psql --version
+        #run: prove -lmv webdriver/t/login.t
