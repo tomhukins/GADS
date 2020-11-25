@@ -65,7 +65,8 @@ jobs:
       - name: 'Install CPAN dependencies'
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
-          cpanfile: 'cpanfile'
+          args: '--quiet --installdeps --notest .'
+          #cpanfile: 'cpanfile'
       - name: 'Install Webdriver CPAN dependencies'
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
@@ -84,4 +85,5 @@ jobs:
           PGUSER: postgres
         run: ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
-        run: prove -lmrsv webdriver/t
+        #run: prove -lmrsv webdriver/t
+        run: prove -lmv webdriver/t/login.t
