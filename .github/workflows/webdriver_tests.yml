@@ -1,7 +1,27 @@
-name: 'GADS Webdriver Tests'
+name: 'GADS Tests'
 on: [push]
 
 jobs:
+#  unit:
+#    name: 'Unit Tests'
+#    runs-on: 'ubuntu-latest'
+#    timeout-minutes: 15
+#
+#  steps:
+#      - name: 'Check out the GADS repository'
+#        uses: 'actions/checkout@v2'
+#      - name: 'Install Non-CPAN dependencies'
+#        run: sudo apt-get install cpanminus liblua5.3-dev
+#      - name: 'Build cpanfile'
+#        run: |
+#          perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
+#      - name: 'Install CPAN dependencies'
+#        uses: 'perl-actions/install-with-cpanm@v1'
+#        with:
+#          cpanfile: 'cpanfile'
+#      - name: 'Run the unit tests'
+#        run: prove -lrs -j4 t
+
   webdriver:
     name: 'Webdriver Tests'
     runs-on: 'ubuntu-latest'
