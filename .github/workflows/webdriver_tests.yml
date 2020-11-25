@@ -59,7 +59,6 @@ jobs:
       - name: 'Install Non-CPAN dependencies'
         run: |
           sudo apt-get install cpanminus liblua5.3-dev
-          # sudo apt-get install firefox firefox-geckodriver liblua5.3-dev postgresql
       - name: 'Build cpanfile'
         run: |
           perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
@@ -68,11 +67,15 @@ jobs:
         with:
           cpanfile: 'cpanfile'
       - name: 'Set up credentials for psql'
-        # https://wiki.postgresql.org/wiki/Pgpass
+        # See https://wiki.postgresql.org/wiki/Pgpass
         run: |
           echo '*:*:*:postgres:postgrespassword' > ~/.pgpass
           chmod 600 ~/.pgpass
       - name: 'Start the application'
-        run: env PGDATABASE=postgres PGHOST=localhost PGUSER=postgres ./bin/setup_for_webdriver
+        env:
+          PGDATABASE: postgres
+          PGHOST: localhost
+          PGUSER: postgres
+        run: ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         run: prove -lmv webdriver/t/login.t
