@@ -39,13 +39,12 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgrespassword
           POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
 
     env:
       GADS_USERNAME: 'test@example.com'
       GADS_PASSWORD: 'xyz123'
       PGDATABASE: 'postgres'
+      PGHOST: 'postgres'
       PGUSER: 'postgres'
 
     steps:
@@ -54,11 +53,11 @@ jobs:
       - name: 'Install Non-CPAN dependencies'
         run: |
           apt-get -yq install liblua5.3-dev postgresql-client
-      - name: 'Install CPAN dependencies'
-        run: |
-          cpanm --quiet --installdeps --notest .
-          cd webdriver
-          cpanm --quiet --installdeps --notest .
+#      - name: 'Install CPAN dependencies'
+#        run: |
+#          cpanm --quiet --installdeps --notest .
+#          cd webdriver
+#          cpanm --quiet --installdeps --notest .
       - name: 'Set up credentials for psql'
         # See https://wiki.postgresql.org/wiki/Pgpass
         run: |
@@ -67,7 +66,7 @@ jobs:
       - name: 'Start the application'
         env:
           PGDATABASE: postgres
-          PGHOST: localhost
+          PGHOST: postgres
           PGUSER: postgres
         run: ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
