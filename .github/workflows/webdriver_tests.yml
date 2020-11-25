@@ -27,9 +27,9 @@ jobs:
     runs-on: 'ubuntu-latest'
     timeout-minutes: 30
 
-#    container:
-#      # See https://github.com/Perl/docker-perl-tester
-#      image: 'perldocker/perl-tester:5.32'
+    container:
+      # See https://github.com/Perl/docker-perl-tester
+      image: 'perldocker/perl-tester:5.32'
 
     services:
       postgres:
@@ -58,21 +58,12 @@ jobs:
         uses: 'actions/checkout@v2'
       - name: 'Install Non-CPAN dependencies'
         run: |
-          sudo apt-get install cpanminus liblua5.3-dev
-      - name: 'Build cpanfile'
-        run: |
-          perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
+          sudo apt-get install liblua5.3-dev
       - name: 'Install CPAN dependencies'
-        uses: 'perl-actions/install-with-cpanm@v1'
-        with:
-          args: '--quiet --installdeps --notest .'
-          #cpanfile: 'cpanfile'
-      - name: 'Install Webdriver CPAN dependencies'
-        uses: 'perl-actions/install-with-cpanm@v1'
-        with:
-          install: |
-            Test2::Tools::Compare
-            WebDriver::Tiny
+        run: |
+          cpanm --quiet --installdeps --notest .
+          cd webdriver
+          cpanm --quiet --installdeps --notest .
       - name: 'Set up credentials for psql'
         # See https://wiki.postgresql.org/wiki/Pgpass
         run: |
