@@ -35,8 +35,8 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgresadmin
+          POSTGRES_PASSWORD: postgrespassword
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
@@ -51,7 +51,8 @@ jobs:
       GADS_USERNAME: 'test@example.com'
       GADS_PASSWORD: 'xyz123'
       PGHOST: 'localhost'
-      #PGPORT: ${{ job.services.postgres.ports[5432] }}
+      PGDATABASE: 'postgres'
+      PGUSER: 'postgresadmin'
 
     steps:
       - name: 'Check out the GADS repository'
@@ -72,6 +73,7 @@ jobs:
       - name: 'Diagnostics'
         run: |
           netstat -4an
+          echo '*:*:*:postgresadmin:postgrespassword' > ~/.pgpass
           echo 'select 1;' | psql
       - name: 'Start the application'
         run: ./bin/setup_for_webdriver
