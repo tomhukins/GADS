@@ -1,4 +1,4 @@
-name: 'GADS Tests'
+name: 'Linkspace Tests'
 on: [push]
 
 jobs:
@@ -54,7 +54,7 @@ jobs:
       PGUSER: 'postgres'
 
     steps:
-      - name: 'Check out the GADS repository'
+      - name: 'Check out the Linkspace code'
         uses: 'actions/checkout@v2'
       - name: 'Install Non-CPAN dependencies'
         run: |
@@ -66,6 +66,8 @@ jobs:
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
           cpanfile: 'cpanfile'
+      - name: 'Install Webdriver CPAN dependencies'
+        run: cpanm Webdriver::Tiny
       - name: 'Set up credentials for psql'
         # See https://wiki.postgresql.org/wiki/Pgpass
         run: |
