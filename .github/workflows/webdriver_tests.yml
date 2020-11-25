@@ -74,6 +74,7 @@ jobs:
         run: |
           netstat -4an
           echo '*:*:*:postgresadmin:postgrespassword' > ~/.pgpass
+          chmod 600 ~/.pgpass
           echo 'select 1;' | psql
       - name: 'Start the application'
         run: ./bin/setup_for_webdriver
