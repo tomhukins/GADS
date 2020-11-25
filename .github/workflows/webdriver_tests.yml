@@ -65,7 +65,7 @@ jobs:
       - name: 'Install Webdriver CPAN dependencies'
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
-          install: 'Webdriver::Tiny'
+          install: 'WebDriver::Tiny'
       - name: 'Install CPAN dependencies'
         uses: 'perl-actions/install-with-cpanm@v1'
         with:
