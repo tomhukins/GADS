@@ -66,13 +66,10 @@ jobs:
           echo '*:*:*:postgres:postgrespassword' > ~/.pgpass
           chmod 600 ~/.pgpass
       - name: 'Start the application'
-        env:
-          PGDATABASE: postgres
-          PGHOST: postgres
-          PGUSER: postgres
         run: |
           cat ~/.pgpass
           ls -a ~
+          env
           sh -x ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         # TODO: when webdriver/t/create_view.t passes - prove -lmrsv webdriver/t
