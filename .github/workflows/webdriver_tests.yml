@@ -63,8 +63,9 @@ jobs:
 #          cpanm --quiet --installdeps --notest .
       - name: 'Start the application'
         run: |
-          apt-cache search geckodriver
-          export PATH="$PATH:/usr/local/share/gecko_driver"
+          wget https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz
+          tar -xf geckodriver-v0.28.0-linux64.tar.gz
+          cp -rp geckodriver /usr/bin
           env
           which geckodriver
           MOZ_HEADLESS=1 geckodriver -p 9998 --log warn &
