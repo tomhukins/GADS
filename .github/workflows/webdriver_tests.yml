@@ -63,10 +63,10 @@ jobs:
 #          cpanm --quiet --installdeps --notest .
       - name: 'Start the application'
         run: |
+          export PATH="$PATH:/usr/local/share/gecko_driver"
           env
           which geckodriver
-          cat /etc/environment
-          MOZ_HEADLESS=1 geckodriver --log warn &
+          MOZ_HEADLESS=1 geckodriver -p 9998 --log warn &
           ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         # TODO: when webdriver/t/create_view.t passes - prove -lmrsv webdriver/t
