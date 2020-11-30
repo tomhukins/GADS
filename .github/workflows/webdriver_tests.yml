@@ -56,13 +56,17 @@ jobs:
       - name: 'Install Non-CPAN dependencies'
         run: |
           apt-get -yq install liblua5.3-dev postgresql-client
-      - name: 'Install CPAN dependencies'
-        run: |
-          cpanm --quiet --installdeps --notest .
-          cd webdriver
-          cpanm --quiet --installdeps --notest .
+#      - name: 'Install CPAN dependencies'
+#        run: |
+#          cpanm --quiet --installdeps --notest .
+#          cd webdriver
+#          cpanm --quiet --installdeps --notest .
       - name: 'Start the application'
-        run: sh -x ./bin/setup_for_webdriver
+        run: |
+          cat /etc/environment
+          which geckodriver
+          MOZ_HEADLESS=1 geckodriver --log warn &
+          ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         # TODO: when webdriver/t/create_view.t passes - prove -lmrsv webdriver/t
         run: prove -lmv webdriver/t/login.t
