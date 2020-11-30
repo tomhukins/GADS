@@ -72,8 +72,8 @@ jobs:
           PGUSER: postgres
         run: |
           cat ~/.pgpass
-          ls ~
-          ./bin/setup_for_webdriver
+          ls -a ~
+          sh -x ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         # TODO: when webdriver/t/create_view.t passes - prove -lmrsv webdriver/t
         run: prove -lmv webdriver/t/login.t
