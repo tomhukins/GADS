@@ -55,7 +55,8 @@ jobs:
         uses: 'actions/checkout@v2'
       - name: 'Install Non-CPAN dependencies'
         run: |
-          apt-get -yq install firefox liblua5.3-dev postgresql-client
+          apt-cache search firefox
+          apt-get -yq install liblua5.3-dev postgresql-client
       - name : 'Install geckodriver'
         run: |
           wget -q https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz
