@@ -56,21 +56,13 @@ jobs:
       - name: 'Install Non-CPAN dependencies'
         run: |
           apt-get -yq install liblua5.3-dev postgresql-client
-#      - name: 'Install CPAN dependencies'
-#        run: |
-#          cpanm --quiet --installdeps --notest .
-#          cd webdriver
-#          cpanm --quiet --installdeps --notest .
-#      - name: 'Set up credentials for psql'
-#        # See https://wiki.postgresql.org/wiki/Pgpass
-#        run: |
-#          echo '*:*:*:postgres:postgrespassword' > ~/.pgpass
-#          chmod 600 ~/.pgpass
-      - name: 'Start the application'
+      - name: 'Install CPAN dependencies'
         run: |
-          ls -a ~
-          env
-          sh -x ./bin/setup_for_webdriver
+          cpanm --quiet --installdeps --notest .
+          cd webdriver
+          cpanm --quiet --installdeps --notest .
+      - name: 'Start the application'
+        run: sh -x ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         # TODO: when webdriver/t/create_view.t passes - prove -lmrsv webdriver/t
         run: prove -lmv webdriver/t/login.t
