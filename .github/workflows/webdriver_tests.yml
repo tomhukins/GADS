@@ -71,5 +71,5 @@ jobs:
       - name: 'Run the Webdriver tests'
         # TODO: when webdriver/t/create_view.t passes - prove -lmrsv webdriver/t
         run: |
-          perl -Ilib -c webdriver/t/login.t
+          perl -Ilib webdriver/t/login.t
           prove -lmv webdriver/t/login.t
