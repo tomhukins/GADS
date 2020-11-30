@@ -48,6 +48,7 @@ jobs:
       PGDATABASE: 'postgres'
       PGHOST: 'postgres'
       PGUSER: 'postgres'
+      PGPASSWORD: 'postgrespassword'
 
     steps:
       - name: 'Check out the Linkspace code'
@@ -60,14 +61,13 @@ jobs:
 #          cpanm --quiet --installdeps --notest .
 #          cd webdriver
 #          cpanm --quiet --installdeps --notest .
-      - name: 'Set up credentials for psql'
-        # See https://wiki.postgresql.org/wiki/Pgpass
-        run: |
-          echo '*:*:*:postgres:postgrespassword' > ~/.pgpass
-          chmod 600 ~/.pgpass
+#      - name: 'Set up credentials for psql'
+#        # See https://wiki.postgresql.org/wiki/Pgpass
+#        run: |
+#          echo '*:*:*:postgres:postgrespassword' > ~/.pgpass
+#          chmod 600 ~/.pgpass
       - name: 'Start the application'
         run: |
-          cat ~/.pgpass
           ls -a ~
           env
           sh -x ./bin/setup_for_webdriver
