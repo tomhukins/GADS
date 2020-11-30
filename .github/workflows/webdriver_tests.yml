@@ -55,7 +55,7 @@ jobs:
         uses: 'actions/checkout@v2'
       - name: 'Install Non-CPAN dependencies'
         run: |
-          apt-get -yq install firefox-geckodriver liblua5.3-dev postgresql-client
+          apt-get -yq install liblua5.3-dev postgresql-client
 #      - name: 'Install CPAN dependencies'
 #        run: |
 #          cpanm --quiet --installdeps --notest .
