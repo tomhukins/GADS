@@ -65,6 +65,7 @@ jobs:
         run: |
           export PATH="$PATH:/usr/local/share/gecko_driver"
           env
+          ls -l /usr/local/share/gecko_driver
           which geckodriver
           MOZ_HEADLESS=1 geckodriver -p 9998 --log warn &
           ./bin/setup_for_webdriver
