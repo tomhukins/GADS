@@ -55,19 +55,19 @@ jobs:
         uses: 'actions/checkout@v2'
       - name: 'Install Non-CPAN dependencies'
         run: |
-          apt-get -yq install liblua5.3-dev postgresql-client
+          apt-get -yq install firefox liblua5.3-dev postgresql-client
       - name : 'Install geckodriver'
         run: |
           wget -q https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz
           tar -xf geckodriver-v0.28.0-linux64.tar.gz
           cp -rp geckodriver /usr/bin
-      - name: 'Install CPAN dependencies'
-        run: |
-          cpanm --quiet --installdeps --notest .
-          cd webdriver
-          cpanm --quiet --installdeps --notest .
+#      - name: 'Install CPAN dependencies'
+#        run: |
+#          cpanm --quiet --installdeps --notest .
+#          cd webdriver
+#          cpanm --quiet --installdeps --notest .
       - name: 'Start the application'
-        run: sh -x ./bin/setup_for_webdriver
+        run: ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         # TODO: when webdriver/t/create_view.t passes - prove -lmrsv webdriver/t
         run: |
