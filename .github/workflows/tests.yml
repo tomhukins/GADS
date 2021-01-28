@@ -40,6 +40,13 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
+
+    env:
+      GADS_USERNAME: 'test@example.com'
+      GADS_PASSWORD: 'xyz123'
+      PGDATABASE: 'postgres'
+      PGUSER: 'postgres'
+
     steps:
       - name: 'Check out the GADS code'
         uses: 'actions/checkout@v2'
