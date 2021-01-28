@@ -49,9 +49,9 @@ jobs:
           chmod 600 ~/.pgpass
       - name: 'Start the application'
         env:
-          PGDATABASE: postgres
-          PGHOST: localhost
-          PGUSER: postgres
+          PGDATABASE: 'postgres'
+          PGHOST: 'localhost'
+          PGUSER: 'postgres'
         run: ./bin/setup_for_webdriver
       - name: 'Run the Webdriver tests'
         run: prove -lmv webdriver/t/login.t
