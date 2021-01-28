@@ -45,6 +45,7 @@ jobs:
       GADS_USERNAME: 'test@example.com'
       GADS_PASSWORD: 'xyz123'
       PGDATABASE: 'postgres'
+      PGHOST: 'localhost'
       PGUSER: 'postgres'
 
     steps:
