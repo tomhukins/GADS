@@ -3,7 +3,7 @@ on: [ 'push', 'pull_request' ]
 
 jobs:
   unit_tests:
-    name: 'GADS Unit Tests'
+    name: 'Unit Tests'
     runs-on: 'ubuntu-20.04'
     timeout-minutes: 30
 
@@ -26,3 +26,47 @@ jobs:
         run: |
           prove -lrs -j4 t
 
+  webdriver_tests:
+    name: 'Webdriver Tests'
+    runs-on: 'ubuntu-20.04'
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgrespassword
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+    steps:
+      - name: 'Check out the GADS code'
+        uses: 'actions/checkout@v2'
+      - name: 'Install Non-CPAN dependencies'
+        run: |                                                                                   sudo apt-get install cpanminus liblua5.3-dev
+          # Avoid "Install CPAN dependencies" needing to compile so much
+          sudo apt-get install libdancer2-perl libdatetime-format-sqlite-perl libtest-most-perl libdatetime-set-perl libdbix-class-schema-loader-perl
+      - name: 'Build cpanfile'                                                                 run: |
+          perl -wE 'our %prereq_pm; require "./Makefile.PL"; foreach my $k (sort keys %prereq_pm) { say qq(requires "$k";) }' > cpanfile
+        uses: 'perl-actions/install-with-cpanm@v1'                                             with:
+          cpanfile: 'cpanfile'
+      - name: 'Install Webdriver CPAN dependencies'
+        uses: 'perl-actions/install-with-cpanm@v1'
+        with:
+          install: |
+            Test2::Tools::Compare
+            WebDriver::Tiny
+      - name: 'Set up credentials for psql'
+        # See https://wiki.postgresql.org/wiki/Pgpass
+        run: |
+          echo '*:*:*:postgres:postgrespassword' > ~/.pgpass
+          chmod 600 ~/.pgpass
+      - name: 'Start the application'
+        env:
+          PGDATABASE: postgres
+          PGHOST: localhost
+          PGUSER: postgres
+        run: ./bin/setup_for_webdriver
+      - name: 'Run the Webdriver tests'
+        run: prove -lmv webdriver/t/login.t
