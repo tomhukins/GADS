@@ -20,9 +20,6 @@ jobs:
     env:
       GADS_USERNAME: 'test@example.com'
       GADS_PASSWORD: 'xyz123'
-      PGDATABASE: 'postgres'
-      PGHOST: 'localhost'
-      PGUSER: 'postgres'
 
     steps:
       - name: 'Check out the GADS code'
