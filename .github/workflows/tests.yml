@@ -1,10 +1,10 @@
 name: 'GADS Tests'
-on: [push]
+on: [ 'push', 'pull_request' ]
 
 jobs:
   unit_tests:
     name: 'GADS Unit Tests'
-    runs-on: 'ubuntu-latest'
+    runs-on: 'ubuntu-20.04'
     timeout-minutes: 30
 
     steps:
