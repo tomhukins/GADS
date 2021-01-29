@@ -40,4 +40,4 @@ jobs:
           PGUSER: 'linkspace'
           PGPASSWORD: 'linkspace'
         run: |
-          perl -wE 'my $dbh = DBI->connect("dbi:Pg:database=linkspace"); $dbh->disconnect;'
+          perl -MDBI -wE 'my $dbh = DBI->connect("dbi:Pg:database=linkspace"); $dbh->disconnect;'
