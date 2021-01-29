@@ -22,14 +22,7 @@ jobs:
         uses: 'actions/checkout@v2'
       - name: 'Install Non-CPAN dependencies'
         run: |
-          sudo apt-get install libdancer2-perl libdatetime-format-sqlite-perl libdbix-class-schema-loader-perl libdbd-pg-perl
-      - name: 'Install CPAN dependencies'
-        uses: 'perl-actions/install-with-cpanm@v1'
-        with:
-          install: |
-            Dancer2::Plugin::DBIC
-            Dancer2::Plugin::Auth::Extensible
-            DBIx::Class::Migration
+          sudo apt-get install libdbd-pg-perl
       - name: 'Set up credentials for psql'
         # See https://wiki.postgresql.org/wiki/Pgpass
         run: |

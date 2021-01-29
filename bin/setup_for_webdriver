@@ -17,17 +17,3 @@ echo "
 echo "
     CREATE EXTENSION IF NOT EXISTS citext WITH SCHEMA public;
 " | psql -U postgres ${PSQL_DATABASE}
-
-# Deploy the database
-perl bin/seed-database.pl \
-    --initial_username "${GADS_USERNAME}" \
-    --instance_name WebDriverTestSheet \
-    --site "${GADS_HOSTNAME}"
-
-perl -Ilib -MDancer2 -MDancer2::Plugin::Auth::Extensible -wE \
-    "user_password username => '${GADS_USERNAME}', new_password => '${GADS_PASSWORD}'"
-
-echo "
-    UPDATE public.site SET host = '${GADS_HOSTNAME}';
-    UPDATE public.user SET account_request = 0, pwchanged = NOW();
-" | psql -U postgres ${PSQL_DATABASE}
