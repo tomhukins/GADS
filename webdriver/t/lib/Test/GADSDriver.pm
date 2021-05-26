@@ -1048,9 +1048,11 @@ sub purge_deleted_records_ok {
     # could not be scrolled into view" error.
     $webdriver->js( '$.support.transition = false' );
 
-    $webdriver->find('#selectall')->click;
-    $webdriver->find('button[data-target="#purge"]')->click;
-    $webdriver->find('button[type="submit"][name="purge"]')->click;
+    push @failure, $self->_find_and_click([
+        '#selectall',
+        'button[data-target="#purge"]',
+        'button[type="submit"][name="purge"]',
+    ]);
 
     $test->ok( !@failure, $name );
     $test->diag($_) foreach @failure;
