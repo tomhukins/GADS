@@ -909,6 +909,10 @@ sub delete_current_view_ok {
         $webdriver->find('#myModal .modal-dialog .btn-primary')->click;
     }
     else {
+        my $count = $modal_title_el->size;
+        my $text = $modal_title_el->text;
+        $test->note(
+            qq{$count 'Are you sure?' elements found with text "$text"});
         push @failure, "No 'Are you sure?' modal found for view ${view_name}";
     }
 
