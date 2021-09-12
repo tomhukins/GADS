@@ -905,7 +905,7 @@ sub delete_current_view_ok {
     my @failure = $self->_find_and_click( [ 'a[data-target="#myModal"]' ] );
 
     $test->note("About to delete view ${view_name}");
-    $webdriver->find('#myModal .modal-dialog .btn-primary')->click;
+    $webdriver->find('#myModal .modal-dialog .btn-primary', tries => 20)->click;
 
     $test->ok( !@failure, $name );
     $test->diag($_) foreach @failure;
@@ -936,7 +936,7 @@ sub delete_viewed_record_ok {
     my @failure = $self->_find_and_click( [ '.btn-delete' ], jquery => 1 );
 
     $test->note("About to delete $record_title");
-    $webdriver->find('#modaldelete .btn-primary.submit_button')->click;
+    $webdriver->find('#modaldelete .btn-primary.submit_button', tries => 20)->click;
 
     $test->ok( !@failure, $name );
     $test->diag($_) foreach @failure;
