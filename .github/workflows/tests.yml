@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: 'Check out the GADS repository'
-        uses: 'actions/checkout@v3'
+        uses: 'actions/checkout@v4'
       - name: 'Install Non-CPAN dependencies'
         run: |
           sudo apt-get install cpanminus liblua5.3-dev
@@ -18,7 +18,7 @@ jobs:
       - name: 'Build cpanfile'
         run: perl bin/output_cpanfile > cpanfile
       - name: 'Install CPAN dependencies'
-        uses: 'perl-actions/install-with-cpanm@v1'
+        uses: 'perl-actions/install-with-cpanm@v1.5'
         with:
           cpanfile: 'cpanfile'
       - name: 'Run the unit tests'
@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: 'Check out the GADS code'
-        uses: 'actions/checkout@v3'
+        uses: 'actions/checkout@v4'
       - name: 'Install Non-CPAN dependencies'
         run: |
           sudo apt-get install cpanminus liblua5.3-dev
@@ -68,7 +68,7 @@ jobs:
           perl bin/output_cpanfile > cpanfile
           ( cd webdriver && perl ../bin/output_cpanfile ) >> cpanfile
       - name: 'Install CPAN dependencies'
-        uses: 'perl-actions/install-with-cpanm@v1'
+        uses: 'perl-actions/install-with-cpanm@v1.5'
         with:
           cpanfile: 'cpanfile'
       - name: 'Set up credentials for psql'
@@ -95,11 +95,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [18.x, 20.x, 21.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
