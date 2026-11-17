@@ -20,7 +20,7 @@ on:
 jobs:
   unit_tests:
     name: 'Unit Tests'
-    runs-on: 'ubuntu-22.04'
+    runs-on: 'ubuntu-26.04'
     timeout-minutes: 30
     # Bit quicker to download this - not an issue when running in CI,
     # but it helps in local testing. Also all test functionality was tested
@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: 'Check out the GADS repository'
-        uses: 'actions/checkout@v4'
+        uses: 'actions/checkout@v7'
       - name: 'Install dependencies'
         run: ./.github/workflows/install.sh
       - name: 'Run the unit tests'
@@ -37,7 +37,7 @@ jobs:
 
   cypress_tests:
     name: 'Cypress Tests'
-    runs-on: 'ubuntu-22.04'
+    runs-on: 'ubuntu-26.04'
     timeout-minutes: 30
     container: debian:trixie-slim
     needs: js_tests
@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: 'Check out the GADS code'
-        uses: 'actions/checkout@v4'
+        uses: 'actions/checkout@v7'
       - name: 'Install Non-CPAN dependencies'
         run: ./.github/workflows/install.sh
       - name: 'Set up credentials for psql'
@@ -100,7 +100,7 @@ jobs:
 
   js_tests:
     name: JS Tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     needs: lint
 
     strategy:
@@ -109,9 +109,9 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -120,11 +120,11 @@ jobs:
 
   lint:
     name: Lint JS Code
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22.x
       - run: yarn
